@@ -1,0 +1,61 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String          @id @default(uuid())
+  username      String
+  diaries       Diary[]
+  guestsDiaries GuestsDiaries[]
+  insertedAt    DateTime        @default(now()) @map("inserted_at")
+  updatedAt     DateTime        @updatedAt @map("updated_at")
+
+  @@unique([username])
+  @@map("users")
+}
+
+model Diary {
+  id            String          @id @default(uuid())
+  title         String
+  description   String?
+  owner         User            @relation(fields: [ownerId], references: [id])
+  ownerId       String
+  guestsDiaries GuestsDiaries[]
+  posts         Post[]
+  insertedAt    DateTime        @default(now()) @map("inserted_at")
+  updatedAt     DateTime        @updatedAt @map("updated_at")
+
+  @@map("diaries")
+}
+
+model GuestsDiaries {
+  guest      User     @relation(fields: [guestId], references: [id])
+  guestId    String
+  diary      Diary    @relation(fields: [diaryId], references: [id])
+  diaryId    String
+  insertedAt DateTime @default(now()) @map("inserted_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@id([guestId, diaryId])
+  @@unique(fields: [guestId, diaryId], name: "guestIdDiaryId")
+  @@map("guests_diaries")
+}
+
+model Post {
+  id         String   @id @default(uuid())
+  content    String
+  diary      Diary    @relation(fields: [diaryId], references: [id])
+  diaryId    String
+  insertedAt DateTime @default(now()) @map("inserted_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@map("posts")
+}
