@@ -33,7 +33,7 @@ export class UsersRepository {
           select: {
             id: true,
             title: true,
-            posts: {
+            notes: {
               select: {
                 id: true,
                 content: true,

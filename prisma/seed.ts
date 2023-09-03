@@ -59,27 +59,27 @@ async function main() {
     },
   });
 
-  const post1 = await prisma.post.upsert({
+  const note1 = await prisma.note.upsert({
     where: { id: '2832e608-c09f-4666-83cd-8d3af5bf5292' },
     update: {},
     create: {
       id: '2832e608-c09f-4666-83cd-8d3af5bf5292',
-      content: 'This is my first post',
+      content: 'This is my first note',
       diaryId: diary1.id,
     },
   });
 
-  const post2 = await prisma.post.upsert({
+  const note2 = await prisma.note.upsert({
     where: { id: '3832e608-c09f-4666-83cd-8d3af5bf5293' },
     update: {},
     create: {
       id: '3832e608-c09f-4666-83cd-8d3af5bf5293',
-      content: 'Second post',
+      content: 'Second note',
       diaryId: diary1.id,
     },
   });
 
-  console.log({ post1, post2 });
+  console.log({ note1, note2 });
 }
 
 // execute the main function

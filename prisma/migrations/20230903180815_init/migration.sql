@@ -31,14 +31,14 @@ CREATE TABLE "guests_diaries" (
 );
 
 -- CreateTable
-CREATE TABLE "posts" (
+CREATE TABLE "notes" (
     "id" TEXT NOT NULL,
     "content" TEXT NOT NULL,
     "diaryId" TEXT NOT NULL,
     "inserted_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "posts_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "notes_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -57,4 +57,4 @@ ALTER TABLE "guests_diaries" ADD CONSTRAINT "guests_diaries_guestId_fkey" FOREIG
 ALTER TABLE "guests_diaries" ADD CONSTRAINT "guests_diaries_diaryId_fkey" FOREIGN KEY ("diaryId") REFERENCES "diaries"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "posts" ADD CONSTRAINT "posts_diaryId_fkey" FOREIGN KEY ("diaryId") REFERENCES "diaries"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "notes" ADD CONSTRAINT "notes_diaryId_fkey" FOREIGN KEY ("diaryId") REFERENCES "diaries"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
