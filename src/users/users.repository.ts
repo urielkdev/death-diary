@@ -19,12 +19,8 @@ export class UsersRepository {
     });
   }
 
-  async findAll(): Promise<User[]> {
-    return await this.prismaService.user.findMany();
-  }
-
   async findOne(id: string) {
-    return await this.prismaService.user.findUnique({
+    return await this.prismaService.user.findUniqueOrThrow({
       where: { id },
       select: {
         id: true,
@@ -43,6 +39,10 @@ export class UsersRepository {
         },
       },
     });
+  }
+
+  async findAll(): Promise<User[]> {
+    return await this.prismaService.user.findMany();
   }
 
   async delete(id: string): Promise<User> {

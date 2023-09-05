@@ -46,12 +46,34 @@ $ yarn run test:cov
 
 ## Features
 
-#### CRUD
+#### Routes
 
-- [x] Users
+- [ ] Users
+  - [x] Get All
+  - [ ] Get me
+  - [x] Get One By Id
+  - [ ] Get My Diaries
+  - [x] Create
+  - [x] Update
+  - [x] Delete
 - [ ] Diaries
+  - [ ] Get All By User
+  - [x] Get One By Id
+  - [x] Create
+  - [x] Update
+  - [x] Delete
+  - [ ] Add Guest
 - [ ] Guests Diaries
-- [ ] Posts
+  - [x] Get All
+  - [x] Get One By Id
+  - [x] Create
+  - [x] Delete
+- [ ] Notes
+  - [ ] Get All
+  - [ ] Get One By Id
+  - [ ] Create
+  - [ ] Update
+  - [ ] Delete
 
 #### Use Cases
 

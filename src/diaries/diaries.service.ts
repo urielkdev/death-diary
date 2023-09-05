@@ -11,16 +11,16 @@ export class DiariesService {
     return this.diariesRepository.create(createDiaryDto);
   }
 
-  findAll() {
-    return this.diariesRepository.findAll();
-  }
-
   findOne(id: string) {
     return this.diariesRepository.findOne(id);
   }
 
   findOneWithGuests(id: string) {
     return this.diariesRepository.findOneWithGuests(id);
+  }
+
+  findAll() {
+    return this.diariesRepository.findAll();
   }
 
   update(id: string, updateDiaryDto: UpdateDiaryDto) {

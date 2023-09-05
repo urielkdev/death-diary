@@ -22,16 +22,16 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
-  @Get()
-  @ApiTags('User')
-  findAll() {
-    return this.usersService.findAll();
-  }
-
   @Get(':id')
   @ApiTags('User')
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(id);
+  }
+
+  @Get()
+  @ApiTags('User')
+  findAll() {
+    return this.usersService.findAll();
   }
 
   @Patch(':id')

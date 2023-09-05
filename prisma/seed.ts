@@ -41,7 +41,7 @@ async function main() {
     },
   });
 
-  const guestDiary1 = await prisma.guestsDiaries.upsert({
+  const guestDiary1 = await prisma.guestDiary.upsert({
     where: { guestIdDiaryId: { guestId: user1.id, diaryId: diary1.id } },
     update: {},
     create: {
@@ -50,7 +50,7 @@ async function main() {
     },
   });
 
-  const guestDiary2 = await prisma.guestsDiaries.upsert({
+  const guestDiary2 = await prisma.guestDiary.upsert({
     where: { guestIdDiaryId: { guestId: user1.id, diaryId: diary1.id } },
     update: {},
     create: {

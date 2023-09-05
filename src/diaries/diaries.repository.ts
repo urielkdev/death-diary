@@ -19,12 +19,8 @@ export class DiariesRepository {
     });
   }
 
-  async findAll(): Promise<Diary[]> {
-    return await this.prismaService.diary.findMany();
-  }
-
   async findOne(id: string) {
-    return await this.prismaService.diary.findUnique({
+    return await this.prismaService.diary.findUniqueOrThrow({
       where: { id },
       select: {
         id: true,
@@ -41,7 +37,7 @@ export class DiariesRepository {
   }
 
   async findOneWithGuests(id: string) {
-    return await this.prismaService.diary.findUnique({
+    return await this.prismaService.diary.findUniqueOrThrow({
       where: { id },
       select: {
         id: true,
@@ -65,6 +61,10 @@ export class DiariesRepository {
         },
       },
     });
+  }
+
+  async findAll(): Promise<Diary[]> {
+    return await this.prismaService.diary.findMany();
   }
 
   async delete(id: string): Promise<Diary> {

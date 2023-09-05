@@ -12,7 +12,7 @@ CREATE TABLE "users" (
 CREATE TABLE "diaries" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
-    "description" TEXT,
+    "description" TEXT NOT NULL DEFAULT '',
     "ownerId" TEXT NOT NULL,
     "inserted_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,

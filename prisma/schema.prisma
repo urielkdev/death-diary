@@ -11,32 +11,32 @@ datasource db {
 }
 
 model User {
-  id            String          @id @default(uuid())
+  id            String       @id @default(uuid())
   username      String
   diaries       Diary[]
-  guestsDiaries GuestsDiaries[]
-  insertedAt    DateTime        @default(now()) @map("inserted_at")
-  updatedAt     DateTime        @updatedAt @map("updated_at")
+  guestsDiaries GuestDiary[]
+  insertedAt    DateTime     @default(now()) @map("inserted_at")
+  updatedAt     DateTime     @updatedAt @map("updated_at")
 
   @@unique([username])
   @@map("users")
 }
 
 model Diary {
-  id            String          @id @default(uuid())
+  id            String       @id @default(uuid())
   title         String
-  description   String          @default("")
-  owner         User            @relation(fields: [ownerId], references: [id])
+  description   String       @default("")
+  owner         User         @relation(fields: [ownerId], references: [id])
   ownerId       String
-  guestsDiaries GuestsDiaries[]
+  guestsDiaries GuestDiary[]
   notes         Note[]
-  insertedAt    DateTime        @default(now()) @map("inserted_at")
-  updatedAt     DateTime        @updatedAt @map("updated_at")
+  insertedAt    DateTime     @default(now()) @map("inserted_at")
+  updatedAt     DateTime     @updatedAt @map("updated_at")
 
   @@map("diaries")
 }
 
-model GuestsDiaries {
+model GuestDiary {
   guest      User     @relation(fields: [guestId], references: [id])
   guestId    String
   diary      Diary    @relation(fields: [diaryId], references: [id])

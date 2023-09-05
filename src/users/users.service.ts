@@ -11,12 +11,12 @@ export class UsersService {
     return this.usersRepository.create(createUserDto);
   }
 
-  findAll() {
-    return this.usersRepository.findAll();
-  }
-
   findOne(id: string) {
     return this.usersRepository.findOne(id);
+  }
+
+  findAll() {
+    return this.usersRepository.findAll();
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {

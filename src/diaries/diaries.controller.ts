@@ -22,12 +22,6 @@ export class DiariesController {
     return this.diariesService.create(createDiaryDto);
   }
 
-  @Get()
-  @ApiTags('Diary')
-  findAll() {
-    return this.diariesService.findAll();
-  }
-
   @Get(':id')
   @ApiTags('Diary')
   findOne(@Param('id') id: string) {
@@ -38,6 +32,12 @@ export class DiariesController {
   @ApiTags('Diary')
   findOneWithGuests(@Param('id') id: string) {
     return this.diariesService.findOneWithGuests(id);
+  }
+
+  @Get()
+  @ApiTags('Diary')
+  findAll() {
+    return this.diariesService.findAll();
   }
 
   @Patch(':id')
