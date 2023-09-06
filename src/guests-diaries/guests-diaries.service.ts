@@ -11,14 +11,6 @@ export class GuestsDiariesService {
     return this.guestsDiariesRepository.create(createGuestsDiariesDto);
   }
 
-  findAll() {
-    return this.guestsDiariesRepository.findAll();
-  }
-
-  findOne(guestDiaryDto: GuestDiaryDto) {
-    return this.guestsDiariesRepository.findOne(guestDiaryDto);
-  }
-
   remove(guestDiaryDto: GuestDiaryDto) {
     return this.guestsDiariesRepository.delete(guestDiaryDto);
   }

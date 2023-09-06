@@ -14,39 +14,6 @@ export class GuestsDiariesRepository {
     });
   }
 
-  async findOne(guestDiaryDto: GuestDiaryDto) {
-    const a = await this.prismaService.guestDiary.findUniqueOrThrow({
-      where: { guestIdDiaryId: guestDiaryDto },
-      select: {
-        guest: {
-          select: {
-            id: true,
-            username: true,
-          },
-        },
-        diary: {
-          select: {
-            id: true,
-            title: true,
-            description: true,
-            owner: {
-              select: {
-                id: true,
-                username: true,
-              },
-            },
-          },
-        },
-      },
-    });
-
-    return a;
-  }
-
-  async findAll(): Promise<GuestDiary[]> {
-    return await this.prismaService.guestDiary.findMany();
-  }
-
   async delete(guestDiaryDto: GuestDiaryDto): Promise<GuestDiary> {
     return await this.prismaService.guestDiary.delete({
       where: { guestIdDiaryId: guestDiaryDto },
