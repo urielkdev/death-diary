@@ -1,33 +1,75 @@
 import { Injectable } from '@nestjs/common';
-import { DiariesRepository } from './diaries.repository';
+import { Diary } from '@prisma/client';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateDiaryDto } from './dto/create-diary.dto';
 import { UpdateDiaryDto } from './dto/update-diary.dto';
 
 @Injectable()
 export class DiariesService {
-  constructor(private diariesRepository: DiariesRepository) {}
+  constructor(private readonly prismaService: PrismaService) {}
 
-  create(createDiaryDto: CreateDiaryDto) {
-    return this.diariesRepository.create(createDiaryDto);
+  async create(diary: CreateDiaryDto): Promise<Diary> {
+    return await this.prismaService.diary.create({ data: diary });
   }
 
-  findOne(id: string) {
-    return this.diariesRepository.findOne(id);
+  async update(id: string, diary: UpdateDiaryDto): Promise<Diary> {
+    return await this.prismaService.diary.update({
+      where: { id },
+      data: diary,
+    });
   }
 
-  findOneWithGuests(id: string) {
-    return this.diariesRepository.findOneWithGuests(id);
+  async findOne(id: string) {
+    return await this.prismaService.diary.findUniqueOrThrow({
+      where: { id },
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        notes: {
+          select: {
+            id: true,
+            content: true,
+          },
+        },
+      },
+    });
   }
 
-  findAll() {
-    return this.diariesRepository.findAll();
+  async findOneWithGuests(id: string) {
+    return await this.prismaService.diary.findUniqueOrThrow({
+      where: { id },
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        notes: {
+          select: {
+            id: true,
+            content: true,
+          },
+        },
+        guestsDiaries: {
+          select: {
+            guest: {
+              select: {
+                id: true,
+                username: true,
+              },
+            },
+          },
+        },
+      },
+    });
   }
 
-  update(id: string, updateDiaryDto: UpdateDiaryDto) {
-    return this.diariesRepository.update(id, updateDiaryDto);
+  async findAll(): Promise<Diary[]> {
+    return await this.prismaService.diary.findMany();
   }
 
-  remove(id: string) {
-    return this.diariesRepository.delete(id);
+  async delete(id: string): Promise<Diary> {
+    return await this.prismaService.diary.delete({
+      where: { id },
+    });
   }
 }

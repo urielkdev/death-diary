@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
+import { User } from '@prisma/client';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { encryptPassword } from 'src/utils/utils';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { UsersRepository } from './users.repository';
 
 @Injectable()
 export class UsersService {
-  constructor(private usersRepository: UsersRepository) {}
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(createUserDto: CreateUserDto) {
     const userToCreate = {
@@ -14,26 +15,73 @@ export class UsersService {
       password: await encryptPassword(createUserDto.password),
     };
 
-    return this.usersRepository.create(userToCreate);
+    return await this.prismaService.user.create({ data: userToCreate });
   }
 
-  findOne(id: string) {
-    return this.usersRepository.findOne(id);
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+    const userToCreate = {
+      ...updateUserDto,
+      password: await encryptPassword(updateUserDto.password),
+    };
+
+    return await this.prismaService.user.update({
+      where: { id },
+      data: userToCreate,
+    });
   }
 
-  findOneByUsername(username: string) {
-    return this.usersRepository.findOneByUsername(username);
+  async findOne(id: string) {
+    return await this.prismaService.user.findUniqueOrThrow({
+      where: { id },
+      select: {
+        id: true,
+        username: true,
+        diaries: {
+          select: {
+            id: true,
+            title: true,
+            notes: {
+              select: {
+                id: true,
+                content: true,
+              },
+            },
+          },
+        },
+      },
+    });
   }
 
-  findAll() {
-    return this.usersRepository.findAll();
+  async findOneBy(where: Partial<Record<keyof User, any>>) {
+    return await this.prismaService.user.findFirstOrThrow({
+      where,
+      select: {
+        id: true,
+        username: true,
+        password: true,
+        diaries: {
+          select: {
+            id: true,
+            title: true,
+            notes: {
+              select: {
+                id: true,
+                content: true,
+              },
+            },
+          },
+        },
+      },
+    });
   }
 
-  update(id: string, updateUserDto: UpdateUserDto) {
-    return this.usersRepository.update(id, updateUserDto);
+  async findAll(): Promise<User[]> {
+    return await this.prismaService.user.findMany();
   }
 
-  remove(id: string) {
-    return this.usersRepository.delete(id);
+  async delete(id: string): Promise<User> {
+    return await this.prismaService.user.delete({
+      where: { id },
+    });
   }
 }

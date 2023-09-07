@@ -14,7 +14,7 @@ export class GuestsDiariesController {
   }
 
   @Delete(':guestId/:diaryId')
-  remove(@Param('guestId') guestId: string, @Param('diaryId') diaryId: string) {
-    return this.guestsDiariesService.remove({ guestId, diaryId });
+  delete(@Param('guestId') guestId: string, @Param('diaryId') diaryId: string) {
+    return this.guestsDiariesService.delete({ guestId, diaryId });
   }
 }

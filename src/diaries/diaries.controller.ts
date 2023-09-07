@@ -43,7 +43,7 @@ export class DiariesController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.diariesService.remove(id);
+  delete(@Param('id') id: string) {
+    return this.diariesService.delete(id);
   }
 }
