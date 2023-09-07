@@ -41,6 +41,29 @@ export class UsersRepository {
     });
   }
 
+  async findOneByUsername(username: string) {
+    return await this.prismaService.user.findUniqueOrThrow({
+      where: { username },
+      select: {
+        id: true,
+        username: true,
+        password: true,
+        diaries: {
+          select: {
+            id: true,
+            title: true,
+            notes: {
+              select: {
+                id: true,
+                content: true,
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
   async findAll(): Promise<User[]> {
     return await this.prismaService.user.findMany();
   }

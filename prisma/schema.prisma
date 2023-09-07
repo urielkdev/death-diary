@@ -13,6 +13,7 @@ datasource db {
 model User {
   id            String       @id @default(uuid())
   username      String
+  password      String
   diaries       Diary[]
   guestsDiaries GuestDiary[]
   insertedAt    DateTime     @default(now()) @map("inserted_at")

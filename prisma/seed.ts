@@ -1,16 +1,20 @@
 // prisma/seed.ts
 
 import { PrismaClient } from '@prisma/client';
+import { encryptPassword } from '../src/utils/utils';
 
 // initialize Prisma Client
 const prisma = new PrismaClient();
 
 async function main() {
+  const password = await encryptPassword('123321');
+
   const user1 = await prisma.user.upsert({
     where: { username: 'uriel' },
     update: {},
     create: {
       username: 'uriel',
+      password,
     },
   });
 
@@ -19,6 +23,7 @@ async function main() {
     update: {},
     create: {
       username: 'ronald',
+      password,
     },
   });
 
@@ -27,6 +32,7 @@ async function main() {
     update: {},
     create: {
       username: 'carmella',
+      password,
     },
   });
 
@@ -78,8 +84,6 @@ async function main() {
       diaryId: diary1.id,
     },
   });
-
-  console.log({ note1, note2 });
 }
 
 // execute the main function

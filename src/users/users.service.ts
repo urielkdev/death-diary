@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { encryptPassword } from 'src/utils/utils';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersRepository } from './users.repository';
@@ -7,12 +8,21 @@ import { UsersRepository } from './users.repository';
 export class UsersService {
   constructor(private usersRepository: UsersRepository) {}
 
-  create(createUserDto: CreateUserDto) {
-    return this.usersRepository.create(createUserDto);
+  async create(createUserDto: CreateUserDto) {
+    const userToCreate = {
+      ...createUserDto,
+      password: await encryptPassword(createUserDto.password),
+    };
+
+    return this.usersRepository.create(userToCreate);
   }
 
   findOne(id: string) {
     return this.usersRepository.findOne(id);
+  }
+
+  findOneByUsername(username: string) {
+    return this.usersRepository.findOneByUsername(username);
   }
 
   findAll() {
