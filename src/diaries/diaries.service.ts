@@ -68,8 +68,6 @@ export class DiariesService {
   }
 
   async delete(id: string): Promise<Diary> {
-    return await this.prismaService.diary.delete({
-      where: { id },
-    });
+    return await this.prismaService.diary.delete({ where: { id } });
   }
 }

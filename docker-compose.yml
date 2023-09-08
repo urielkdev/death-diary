@@ -2,7 +2,6 @@
 
 version: '3.8'
 services:
-
   postgres:
     image: postgres:13.5
     restart: always
@@ -13,6 +12,14 @@ services:
       - postgres:/var/lib/postgresql/data
     ports:
       - '5432:5432'
+
+  # app:
+  #   build: .
+  #   entrypoint: ./entrypoint.sh
+  #   ports:
+  #     - 3000:3000
+  #   volumes:
+  #     - .:/home/node/app
 
 volumes:
   postgres:

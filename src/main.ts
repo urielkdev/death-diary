@@ -13,6 +13,8 @@ async function bootstrap() {
     .setTitle('Death Diary API')
     .setDescription('The Death Diary API swagger')
     .setVersion('0.1')
+    .addBearerAuth()
+    .addSecurityRequirements('bearer')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

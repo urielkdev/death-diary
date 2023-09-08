@@ -8,6 +8,7 @@ import { DiariesModule } from './diaries/diaries.module';
 import { GuestsDiariesModule } from './guests-diaries/guests-diaries.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './users/users.module';
+import { NotesModule } from './notes/notes.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { UsersModule } from './users/users.module';
     DiariesModule,
     GuestsDiariesModule,
     AuthModule,
+    NotesModule,
   ],
   controllers: [AppController],
   providers: [
