@@ -18,7 +18,7 @@ export class UsersService {
     return await this.prismaService.user.create({ data: userToCreate });
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+  async update(id: string, updateUserDto: UpdateUserDto) {
     const userToCreate = {
       ...updateUserDto,
       password: await encryptPassword(updateUserDto.password),
@@ -75,11 +75,11 @@ export class UsersService {
     });
   }
 
-  async findAll(): Promise<User[]> {
+  async findAll() {
     return await this.prismaService.user.findMany();
   }
 
-  async delete(id: string): Promise<User> {
+  async delete(id: string) {
     return await this.prismaService.user.delete({
       where: { id },
     });

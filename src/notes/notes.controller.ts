@@ -19,13 +19,13 @@ export class NotesController {
   constructor(private readonly notesService: NotesService) {}
 
   @Post()
-  create(@Body() createNoteDto: CreateNoteDto) {
-    return this.notesService.create(createNoteDto);
+  create(@GetUserData() user, @Body() createNoteDto: CreateNoteDto) {
+    return this.notesService.create(user.id, createNoteDto);
   }
 
   @Get()
-  findAll() {
-    return this.notesService.findAll();
+  findAll(@GetUserData() user) {
+    return this.notesService.findAll(user.id);
   }
 
   @Get(':id')
@@ -34,12 +34,16 @@ export class NotesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateNoteDto: UpdateNoteDto) {
-    return this.notesService.update(id, updateNoteDto);
+  update(
+    @GetUserData() user,
+    @Param('id') id: string,
+    @Body() updateNoteDto: UpdateNoteDto,
+  ) {
+    return this.notesService.update(user.id, id, updateNoteDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.notesService.delete(id);
+  remove(@GetUserData() user, @Param('id') id: string) {
+    return this.notesService.delete(user.id, id);
   }
 }

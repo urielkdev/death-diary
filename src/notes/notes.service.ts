@@ -1,5 +1,4 @@
-import { Injectable } from '@nestjs/common';
-import { Note } from '@prisma/client';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
@@ -8,26 +7,55 @@ import { UpdateNoteDto } from './dto/update-note.dto';
 export class NotesService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async create(diary: CreateNoteDto): Promise<Note> {
-    return await this.prismaService.note.create({ data: diary });
+  async create(ownerId: string, note: CreateNoteDto) {
+    const diary = await this.findOne(ownerId, note.diaryId);
+
+    if (!diary) throw new NotFoundException();
+
+    return await this.prismaService.note.create({ data: note });
   }
 
-  async update(id: string, diary: UpdateNoteDto): Promise<Note> {
+  async update(ownerId: string, id: string, note: UpdateNoteDto) {
     return await this.prismaService.note.update({
-      where: { id },
-      data: diary,
+      where: {
+        id,
+        diary: {
+          ownerId,
+        },
+      },
+      data: note,
     });
   }
 
-  async findOne(id: string) {
-    return await this.prismaService.note.findFirstOrThrow({ where: { id } });
+  async findOne(ownerId: string, id: string) {
+    return await this.prismaService.note.findFirstOrThrow({
+      where: {
+        id,
+        diary: {
+          ownerId,
+        },
+      },
+    });
   }
 
-  async findAll(): Promise<Note[]> {
-    return await this.prismaService.note.findMany();
+  async findAll(ownerId: string) {
+    return await this.prismaService.note.findMany({
+      where: {
+        diary: {
+          ownerId,
+        },
+      },
+    });
   }
 
-  async delete(id: string): Promise<Note> {
-    return await this.prismaService.note.delete({ where: { id } });
+  async delete(ownerId: string, id: string) {
+    return await this.prismaService.note.delete({
+      where: {
+        id,
+        diary: {
+          ownerId,
+        },
+      },
+    });
   }
 }

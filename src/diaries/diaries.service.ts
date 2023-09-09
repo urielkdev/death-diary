@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { Diary } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateDiaryDto } from './dto/create-diary.dto';
 import { UpdateDiaryDto } from './dto/update-diary.dto';
@@ -8,11 +7,13 @@ import { UpdateDiaryDto } from './dto/update-diary.dto';
 export class DiariesService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async create(diary: CreateDiaryDto): Promise<Diary> {
-    return await this.prismaService.diary.create({ data: diary });
+  async create(ownerId: string, diary: CreateDiaryDto) {
+    return await this.prismaService.diary.create({
+      data: { ...diary, ownerId },
+    });
   }
 
-  async update(id: string, diary: UpdateDiaryDto): Promise<Diary> {
+  async update(id: string, diary: UpdateDiaryDto) {
     return await this.prismaService.diary.update({
       where: { id },
       data: diary,
@@ -63,11 +64,11 @@ export class DiariesService {
     });
   }
 
-  async findAll(): Promise<Diary[]> {
+  async findAll() {
     return await this.prismaService.diary.findMany();
   }
 
-  async delete(id: string): Promise<Diary> {
+  async delete(id: string) {
     return await this.prismaService.diary.delete({ where: { id } });
   }
 }

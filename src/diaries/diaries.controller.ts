@@ -8,6 +8,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { GetUserData } from 'src/utils/get-user-data.decorator';
 import { DiariesService } from './diaries.service';
 import { CreateDiaryDto } from './dto/create-diary.dto';
 import { UpdateDiaryDto } from './dto/update-diary.dto';
@@ -18,8 +19,8 @@ export class DiariesController {
   constructor(private readonly diariesService: DiariesService) {}
 
   @Post()
-  create(@Body() createDiaryDto: CreateDiaryDto) {
-    return this.diariesService.create(createDiaryDto);
+  create(@GetUserData() user, @Body() createDiaryDto: CreateDiaryDto) {
+    return this.diariesService.create(user.id, createDiaryDto);
   }
 
   @Get(':id')

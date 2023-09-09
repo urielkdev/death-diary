@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { GuestDiary } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateGuestDiaryDto } from './dto/create-guests-diaries.dto';
 import { GuestDiaryDto } from './dto/guests-diaries.dto';
@@ -8,13 +7,13 @@ import { GuestDiaryDto } from './dto/guests-diaries.dto';
 export class GuestsDiariesService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async create(guestDiaryDto: CreateGuestDiaryDto): Promise<GuestDiary> {
+  async create(guestDiaryDto: CreateGuestDiaryDto) {
     return await this.prismaService.guestDiary.create({
       data: guestDiaryDto,
     });
   }
 
-  async delete(guestDiaryDto: GuestDiaryDto): Promise<GuestDiary> {
+  async delete(guestDiaryDto: GuestDiaryDto) {
     return await this.prismaService.guestDiary.delete({
       where: { guestIdDiaryId: guestDiaryDto },
     });

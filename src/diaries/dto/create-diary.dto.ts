@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsUUID } from 'class-validator';
+import { IsString } from 'class-validator';
 
 export class CreateDiaryDto {
   @ApiProperty()
@@ -9,9 +9,4 @@ export class CreateDiaryDto {
   @ApiProperty()
   @IsString()
   description: string;
-
-  @ApiProperty()
-  @IsString()
-  @IsUUID()
-  ownerId: string;
 }
