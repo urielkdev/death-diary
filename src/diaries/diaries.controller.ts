@@ -24,27 +24,31 @@ export class DiariesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.diariesService.findOne(id);
+  findOne(@GetUserData() user, @Param('id') id: string) {
+    return this.diariesService.findOne(user.id, id);
   }
 
   @Get(':id/guests')
-  findOneWithGuests(@Param('id') id: string) {
-    return this.diariesService.findOneWithGuests(id);
+  findOneWithGuests(@GetUserData() user, @Param('id') id: string) {
+    return this.diariesService.findOneWithGuests(user.id, id);
   }
 
   @Get()
-  findAll() {
-    return this.diariesService.findAll();
+  findAll(@GetUserData() user) {
+    return this.diariesService.findAll(user.id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDiaryDto: UpdateDiaryDto) {
-    return this.diariesService.update(id, updateDiaryDto);
+  update(
+    @GetUserData() user,
+    @Param('id') id: string,
+    @Body() updateDiaryDto: UpdateDiaryDto,
+  ) {
+    return this.diariesService.update(user.id, id, updateDiaryDto);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string) {
-    return this.diariesService.delete(id);
+  delete(@GetUserData() user, @Param('id') id: string) {
+    return this.diariesService.delete(user.id, id);
   }
 }

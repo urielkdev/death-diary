@@ -13,16 +13,16 @@ export class DiariesService {
     });
   }
 
-  async update(id: string, diary: UpdateDiaryDto) {
+  async update(ownerId: string, id: string, diary: UpdateDiaryDto) {
     return await this.prismaService.diary.update({
-      where: { id },
+      where: { ownerId, id },
       data: diary,
     });
   }
 
-  async findOne(id: string) {
+  async findOne(ownerId: string, id: string) {
     return await this.prismaService.diary.findUniqueOrThrow({
-      where: { id },
+      where: { ownerId, id },
       select: {
         id: true,
         title: true,
@@ -37,9 +37,9 @@ export class DiariesService {
     });
   }
 
-  async findOneWithGuests(id: string) {
+  async findOneWithGuests(ownerId: string, id: string) {
     return await this.prismaService.diary.findUniqueOrThrow({
-      where: { id },
+      where: { ownerId, id },
       select: {
         id: true,
         title: true,
@@ -64,11 +64,11 @@ export class DiariesService {
     });
   }
 
-  async findAll() {
-    return await this.prismaService.diary.findMany();
+  async findAll(ownerId: string) {
+    return await this.prismaService.diary.findMany({ where: { ownerId } });
   }
 
-  async delete(id: string) {
-    return await this.prismaService.diary.delete({ where: { id } });
+  async delete(ownerId: string, id: string) {
+    return await this.prismaService.diary.delete({ where: { ownerId, id } });
   }
 }
